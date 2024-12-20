@@ -11,11 +11,9 @@ WINDOW_TITLE = "OCR File Renamer"
 WINDOW_DIMENSIONS = "600x400"
 STATUS_INITIAL_MESSAGE = "Status: Waiting for input..."
 
-
+#opens a folder selection and updates corresponding label
 def selectFolder(isInput=True):
     """
-    Opens a folder selection dialog and updates the corresponding label.
-
     Args:
         isInput (bool): Whether selecting the input folder (True) or output folder (False).
     """
@@ -27,10 +25,8 @@ def selectFolder(isInput=True):
             outputFolderLabel.config(text=folderPath)
 
 
+#initiates the OCR process using selected input and output folders
 def startOCRProcess():
-    """
-    Initiates the OCR process using the selected input and output folders.
-    """
     inputFolder = inputFolderLabel["text"]
     outputFolder = outputFolderLabel["text"]
 
@@ -39,22 +35,18 @@ def startOCRProcess():
     else:
         updateStatusMessage("Error: Please select both input and output folders.")
 
-
+#updates the progress bar
 def updateProgressBar(progressFraction):
     """
-    Updates the progress bar.
-
     Args:
         progressFraction (float): Fractional progress (0.0 to 1.0).
     """
     progressBar["value"] = progressFraction * 100
     app.update_idletasks()
 
-
+#updates the status message displayed in the text area
 def updateStatusMessage(message):
     """
-    Updates the status message displayed in the text area.
-
     Args:
         message (str): The status message to display.
     """
@@ -62,35 +54,35 @@ def updateStatusMessage(message):
     statusText.insert(tk.END, message)
     app.update_idletasks()
 
-# Create main application window
+#create main application window
 app = tk.Tk()
 app.title(WINDOW_TITLE)
 app.geometry(WINDOW_DIMENSIONS)
 
-# Input folder selection
+#input folder selection
 inputFolderButton = tk.Button(app, text="Select Input Folder", command=lambda: selectFolder(True))
 inputFolderButton.pack(pady=10)
 inputFolderLabel = tk.Label(app, text="No Input Folder Selected")
 inputFolderLabel.pack()
 
-# Output folder selection
+#output folder selection
 outputFolderButton = tk.Button(app, text="Select Output Folder", command=lambda: selectFolder(False))
 outputFolderButton.pack(pady=10)
 outputFolderLabel = tk.Label(app, text="No Output Folder Selected")
 outputFolderLabel.pack()
 
-# Progress bar
+#progress bar
 progressBar = ttk.Progressbar(app, orient="horizontal", length=300, mode="determinate")
 progressBar.pack(pady=20)
 
-# Status text area
+#status text area
 statusText = tk.Text(app, height=5, width=50)
 statusText.pack(pady=10)
 statusText.insert(tk.END, STATUS_INITIAL_MESSAGE)
 
-# Start OCR button
+#start OCR button
 startButton = tk.Button(app, text="Start OCR", command=startOCRProcess)
 startButton.pack(pady=10)
 
-# Start main event loop
+#start main event loop
 app.mainloop()
